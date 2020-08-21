@@ -15,11 +15,13 @@
     height: 25px;
     padding: 0 10px;
     border: 2px solid #555555;
+    background-color: transparent;
   }
   select {
     // padding: 5px;
     height: 27px;
     box-shadow: 0px 0px 0px 1px black;
+    background-color: transparent;
   }
   .row-name,
   .row-date,
@@ -48,6 +50,7 @@
   .row-date {
     select {
       padding: 0 50px;
+      background-color: transparent !important;
     }
   }
   .row-gender {
@@ -67,8 +70,17 @@
   .row-phone {
     display: flex;
     flex-direction: row;
+    align-items: center;
     .react-tel-input {
       border: 2px solid #555555;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      transform: translateY(5px);
+      input {
+        background-color: transparent !important;
+       height: 26px;
+      }
     }
     .block-input {
       display: flex;
@@ -82,7 +94,13 @@
       }
     }
   }
-  .row-sarary{
-      
+  .row-sarary {
+
+    button{
+
+        &:active{
+            transform: translateY(2px);
+        }
+    }
   }
 }

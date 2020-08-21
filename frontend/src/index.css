@@ -15,7 +15,7 @@ code {
 }
 
 body {
-  background-image: url('/bg1.png');
+ background-color: #2B2B2B;
   padding: 20px;
   margin: 0;
 }
@@ -32,9 +32,10 @@ ul.header li {
   margin: 0;
 }
 ul.header {
+  
   background-color: transparent;
   padding: 0;
-  border: 1px solid #555555;
+  border: 2px solid #555555;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 ul.header li a {
@@ -65,3 +66,4 @@ ul.header li a {
   background-color: #bedbe8;
   /* color: white !important; */
 }
+

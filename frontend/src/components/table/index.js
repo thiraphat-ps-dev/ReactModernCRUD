@@ -110,6 +110,90 @@ export default function index() {
                 <a href="#">EDIT</a> / <a href="#">DELETE</a>
               </td>
             </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td>John Doe</td>
+              <td>Female</td>
+              <td>++660899862641</td>
+              <td>THAI</td>
+              <td>
+                <a href="#">EDIT</a> / <a href="#">DELETE</a>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>

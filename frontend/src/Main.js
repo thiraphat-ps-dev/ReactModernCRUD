@@ -8,7 +8,7 @@ class Main extends Component {
     return (
       <BrowserRouter>
         <div>
-          <h1>ReactModernCRUD</h1>
+          <h1 style={{ marginLeft: '20px' }}>ReactModernCRUD</h1>
           <ul className="header">
             <li>
               <NavLink exact to="/">
