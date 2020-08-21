@@ -1,0 +1,88 @@
+.form-employee {
+  border: 2px solid #555555;
+  padding: 20px;
+  margin-bottom: 10px;
+  sup {
+    color: red;
+    font-size: 18px;
+  }
+  label {
+    font-size: 20px;
+    margin-right: 5px;
+    width: -webkit-fill-available;
+  }
+  input {
+    height: 25px;
+    padding: 0 10px;
+    border: 2px solid #555555;
+  }
+  select {
+    // padding: 5px;
+    height: 27px;
+    box-shadow: 0px 0px 0px 1px black;
+  }
+  .row-name,
+  .row-date,
+  .row-citizenid,
+  .row-gender,
+  .row-phone,
+  .row-passport,
+  .row-sarary {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .block-input {
+      margin: 5px 0;
+      margin-right: 20px;
+    }
+  }
+  .row-sarary {
+    justify-content: space-between;
+    button {
+      padding: 10px 20px;
+      border: 2px solid #555555;
+      font-size: 20px;
+    }
+  }
+  .row-date {
+    select {
+      padding: 0 50px;
+    }
+  }
+  .row-gender {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .block-input {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    input {
+      height: unset;
+      box-shadow: 0px 0px 0px 1px black;
+    }
+  }
+  .row-phone {
+    display: flex;
+    flex-direction: row;
+    .react-tel-input {
+      border: 2px solid #555555;
+    }
+    .block-input {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  .row-name {
+    .block-input {
+      select {
+        padding: 5px 20px 5px 0;
+      }
+    }
+  }
+  .row-sarary{
+      
+  }
+}

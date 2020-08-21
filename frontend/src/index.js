@@ -9,13 +9,15 @@ import reducer from './redux/reducers';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import Main from './Main';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      {/* <App /> */}
+      <Main />,
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

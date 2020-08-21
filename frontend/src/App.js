@@ -7,7 +7,14 @@ const App = () => {
   const counterReducer = useSelector(({ counterReducer }) => counterReducer);
   return (
     <>
-      <button onClick={() => dispatch(actions.onIncrementAsync())}>
+        <h1>Simple SPA</h1>
+          <ul className="header">
+            <li><a href="/">Home</a></li>
+            <li><a href="/stuff">Stuff</a></li>
+            <li><a href="/contact">Contact</a></li>
+          </ul>
+          <div className="content">
+          <button onClick={() => dispatch(actions.onIncrementAsync())}>
         Increment after 1 second
       </button>
 
@@ -16,6 +23,8 @@ const App = () => {
       <button onClick={() => dispatch(actions.onAdd(10))}>Add</button>
       <hr />
       <div>Clicked: {counterReducer.count}</div>
+          </div>
+     
     </>
   );
 };
