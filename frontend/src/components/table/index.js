@@ -3,21 +3,9 @@ import './table.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../redux/actions/employee.action';
-import Form from '../form/index';
 export default function () {
   const dispatch = useDispatch();
-  const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
-
-  // const result = employeeReducer.employeelist.map(function (el) {
-  //   var o = Object.assign({}, el);
-  //   o.isCheck = false;
-  //   return o;
-  // });
-
-  // console.table(result);
-  // console.log(
-  //   employeeReducer.employeelist.some((em, index) => em.isCheck === false)
-  // );
+  let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
   return (
     <div>
       <div className="table-container">
@@ -30,7 +18,7 @@ export default function () {
                 id=""
                 checked={
                   !employeeReducer.employeelist.some(
-                    (em, index) => em.isCheck === false
+                    (em) => em.isCheck === false
                   )
                 }
               />
@@ -41,12 +29,23 @@ export default function () {
           <div className="right">
             <div className="navigation-bar">
               <a href="#">PREV</a>
-              <a href="#">1</a>
+              {_.map(
+                employeeReducer.employeelist.slice(
+                  0,
+                  employeeReducer.employeelist.length / 10
+                ),
+                (employee, index) => (
+                  <a
+                    key={employee}
+                    onClick={() => {
+                      dispatch(actions.onEdit(index + 1));
+                    }}
+                  >
+                    {index + 1}
+                  </a>
+                )
+              )}
 
-              <a href="#">2</a>
-
-              <a href="#">3</a>
-              <a href="#">4</a>
               <a href="#">NEXT</a>
             </div>
           </div>
@@ -63,45 +62,53 @@ export default function () {
             </tr>
           </thead>
           <tbody>
-            {_.map(employeeReducer.employeelist, (employee, index) => (
-              <tr className={`${employee.isCheck ? 'active' : ''}`} key={index}>
-                <td>
-                  <input
-                    type="checkbox"
-                    name=""
-                    id=""
-                    checked={employee.isCheck}
-                    onClick={() => {
-                      console.log('ckicj');
-                      const newArr = (employeeReducer.employeelist[
-                        index
-                      ].isCheck = !employee.isCheck);
-                      console.table(employeeReducer.employeelist);
+            {_.map(
+              employeeReducer.employeelist.slice(
+                (employeeReducer.curentpage - 1) * 10,
+                employeeReducer.curentpage * 10
+              ),
+              (employee, index) => (
+                <tr
+                  className={`${employee.isCheck ? 'active' : ''}`}
+                  key={index}
+                >
+                  <td>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      checked={employee.isCheck}
+                      onClick={() => {
+                        console.log('ckicj');
+                        console.table(employeeReducer.employeelist);
 
-                      dispatch(actions.onUpdate(employeeReducer.employeelist));
-                    }}
-                  />
-                </td>
-                <td>{`${employee.firstname}  ${employee.lastname}`}</td>
-                <td>{employee.gender || '-'}</td>
-                <td>+{employee.mobilephone}</td>
-                <td>{employee.nationality}</td>
-                <td>
-                  <a href={`/edit/${index}`} onClick={() => {}}>
-                    EDIT
-                  </a>{' '}
-                  /{' '}
-                  <a
-                    href="#"
-                    onClick={() => {
-                      dispatch(actions.onDelete(index));
-                    }}
-                  >
-                    DELETE
-                  </a>
-                </td>
-              </tr>
-            ))}
+                        dispatch(
+                          actions.onUpdate(employeeReducer.employeelist)
+                        );
+                      }}
+                    />
+                  </td>
+                  <td>{`${employee.firstname}  ${employee.lastname}`}</td>
+                  <td>{employee.gender || '-'}</td>
+                  <td>+{employee.mobilephone}</td>
+                  <td>{employee.nationality}</td>
+                  <td>
+                    <a href="#" onClick={() => {}}>
+                      EDIT
+                    </a>{' '}
+                    /{' '}
+                    <a
+                      href="#"
+                      onClick={() => {
+                        dispatch(actions.onDelete(index));
+                      }}
+                    >
+                      DELETE
+                    </a>
+                  </td>
+                </tr>
+              )
+            )}
           </tbody>
         </table>
       </div>

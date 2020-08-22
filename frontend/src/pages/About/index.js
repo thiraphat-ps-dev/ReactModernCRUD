@@ -5,14 +5,14 @@ class index extends Component {
   render() {
     return (
       <div>
-        <h2>About</h2>
+        <h2>Proposition</h2>
         <p>
-          Mauris sem velit, vehicula eget sodales vitae, rhoncus eget sapien:
+          Create SPA (Single Page Application) as mock up follow below Requirement
         </p>
         <ol>
-          <li>Nulla pulvinar diam</li>
-          <li>Facilisis bibendum</li>
-          <li>Vestibulum vulputate</li>
+          <li>Using React and Redux</li>
+          <li>Save all data in local-storage</li>
+          <li>Provide validation for all fields</li>
           <li>Eget erat</li>
           <li>Id porttitor</li>
         </ol>

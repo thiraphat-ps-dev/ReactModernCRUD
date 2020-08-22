@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import './form.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-import {
-  CountryDropdown,
-  RegionDropdown,
-  CountryRegionData,
-} from 'react-country-region-selector';
+import { CountryDropdown } from 'react-country-region-selector';
 import * as actions from '../../redux/actions/employee.action';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -300,7 +296,7 @@ export default function () {
                 document
                   .querySelector('.react-tel-input')
                   .classList.remove('error');
-                setPhone((phone: phone));
+
                 console.log(phone);
                 setEmployee({ ...employee, mobilephone: phone });
               }}
