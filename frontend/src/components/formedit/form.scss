@@ -1,0 +1,135 @@
+.form-employee {
+  border: 2px solid #555555;
+  padding: 20px;
+  margin-bottom: 10px;
+  sup {
+    color: red;
+    font-size: 18px;
+  }
+  label {
+    font-size: 20px;
+    margin-right: 5px;
+    width: -webkit-fill-available;
+  }
+  input {
+    height: 25px;
+    padding: 0 10px;
+    border: 2px solid #555555;
+    background-color: transparent;
+    &.error {
+      border: 2px solid red;
+    }
+  }
+  select {
+    // padding: 5px;
+    height: 27px;
+    box-shadow: 0px 0px 0px 1px black;
+    background-color: transparent;
+    &.error {
+      border: 2px solid red;
+    }
+  }
+  .row-name,
+  .row-date,
+  .row-citizenid,
+  .row-gender,
+  .row-phone,
+  .row-passport,
+  .row-sarary {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .block-input {
+      margin: 5px 0;
+      margin-right: 20px;
+    }
+  }
+  .row-sarary {
+    justify-content: space-between;
+    button {
+      padding: 10px 20px;
+      border: 2px solid #555555;
+      font-size: 20px;
+      outline: none;
+      cursor: pointer;
+      &:active {
+        transform: translateY(2px);
+      }
+    }
+  }
+  .row-date {
+    select {
+      padding: 0 50px;
+      background-color: transparent !important;
+    }
+  }
+  .row-gender {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .block-input {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+    input {
+      height: unset;
+      box-shadow: 0px 0px 0px 1px black;
+    }
+  }
+  .row-phone {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .react-tel-input {
+      border: 2px solid #555555;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      transform: translateY(5px);
+      input {
+        background-color: transparent !important;
+        height: 26px;
+      }
+      &.error {
+        border: 2px solid red;
+      }
+    }
+    .block-input {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  .row-name {
+    .block-input {
+      select {
+        padding: 5px 20px 5px 0;
+      }
+    }
+  }
+  .row-sarary {
+    button {
+      &:active {
+        transform: translateY(2px);
+      }
+    }
+  }
+  .row-error {
+    display: flex;
+    flex-direction: row;
+    span {
+      visibility: hidden;
+      background-color: red;
+      color: white;
+      border-radius: 5px;
+      padding: 0px 10px;
+      font-weight: 600;
+      font-size: 18px;
+      margin-right: 10px;
+      &.error {
+        visibility: visible;
+      }
+    }
+  }
+}

@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from './redux/actions/counter.action';
+const App = () => {
+  const dispatch = useDispatch();
+  const counterReducer = useSelector(({ counterReducer }) => counterReducer);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Simple SPA</h1>
+      <ul className="header">
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/stuff">Stuff</a>
+        </li>
+        <li>
+          <a href="/contact">Contact</a>
+        </li>
+      </ul>
+      <div className="content">
+        <button onClick={() => dispatch(actions.onIncrementAsync())}>
+          Increment after 1 second
+        </button>
+
+        <button onClick={() => dispatch(actions.onIncrement())}>
+          Increment
+        </button>
+        <button onClick={() => dispatch(actions.onDecrement())}>
+          Decrement
+        </button>
+        <button onClick={() => dispatch(actions.onAdd(10))}>Add</button>
+        <hr />
+        <div>Clicked: {counterReducer.count}</div>
+      </div>
+    </>
   );
-}
+};
 
 export default App;

@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+#root {
+  max-width: 830px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 830px;
+  width: 830px;
+  background-image: url('/bg1.png');
+  background-size: contain;
+}
