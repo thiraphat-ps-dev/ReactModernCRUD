@@ -12,7 +12,7 @@ const initialState = {
   employeelist: [
     {
       title: '',
-      firstname: 'Thiraphat',
+      firstname: 'user1',
       lastname: 'Putson',
       birthday: '2020-08-20',
       gender: 'male',
@@ -31,7 +31,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdffsdfdsf',
+      firstname: 'user2',
       lastname: 'Putson',
       birthday: '2020-08-20',
       gender: 'male',
@@ -50,7 +50,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'asdsad',
+      firstname: 'user3',
       lastname: 'adsad',
       birthday: '2020-08-11',
       gender: 'male',
@@ -69,7 +69,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'asdasdasd',
+      firstname: 'user4',
       lastname: 'asdasdas',
       birthday: '2020-08-06',
       gender: 'male',
@@ -88,7 +88,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user5',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -101,7 +101,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user6',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -114,7 +114,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user7',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -127,7 +127,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user8',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -140,7 +140,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user9',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -153,7 +153,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user10',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -166,7 +166,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'Thiraphat',
+      firstname: 'user11',
       lastname: 'Putson',
       birthday: '2020-08-20',
       gender: 'male',
@@ -185,7 +185,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdffsdfdsf',
+      firstname: 'user12',
       lastname: 'Putson',
       birthday: '2020-08-20',
       gender: 'male',
@@ -204,7 +204,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'asdsad',
+      firstname: 'user13',
       lastname: 'adsad',
       birthday: '2020-08-11',
       gender: 'male',
@@ -223,7 +223,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'asdasdasd',
+      firstname: 'user14',
       lastname: 'asdasdas',
       birthday: '2020-08-06',
       gender: 'male',
@@ -242,7 +242,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user15',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -255,7 +255,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user16',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -268,7 +268,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user17',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -281,7 +281,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user18',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -294,7 +294,7 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user19',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',
@@ -307,7 +307,20 @@ const initialState = {
     },
     {
       title: '',
-      firstname: 'sdfsdf',
+      firstname: 'user20',
+      lastname: 'sdfsdf',
+      birthday: '2020-08-04',
+      gender: '',
+      mobilephone: '662342342343',
+      citizenid: { num1: '', num2: '', num3: '', num4: '', num5: '' },
+      passport: '',
+      expectedsalary: '234,234,324',
+      isCheck: false,
+      nationality: 'American Samoa',
+    },
+    {
+      title: '',
+      firstname: 'user21',
       lastname: 'sdfsdf',
       birthday: '2020-08-04',
       gender: '',

@@ -6,7 +6,7 @@ import * as actions from '../../redux/actions/employee.action';
 
 export default function () {
   const dispatch = useDispatch();
-  let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
+  const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
   return (
     <div>
@@ -38,11 +38,30 @@ export default function () {
           </div>
           <div className="right">
             <div className="navigation-bar">
-              <button>PREV</button>
+              <button
+                onClick={() => {
+                  if (employeeReducer.curentpage !== 1) {
+                    dispatch(actions.onEdit(employeeReducer.curentpage - 1));
+                  }
+                }}
+              >
+                PREV
+              </button>
+
+              {Math.ceil(employeeReducer.employeelist.length / 10) === 0 ? (
+                <button
+                  onClick={() => {
+                    dispatch(actions.onEdit(1));
+                  }}
+                >
+                  1
+                </button>
+              ) : null}
+
               {_.map(
                 employeeReducer.employeelist.slice(
                   0,
-                  employeeReducer.employeelist.length / 10
+                  Math.ceil(employeeReducer.employeelist.length / 10)
                 ),
                 (employee, index) => (
                   <button
@@ -55,8 +74,18 @@ export default function () {
                   </button>
                 )
               )}
-
-              <button>NEXT</button>
+              <button
+                onClick={() => {
+                  if (
+                    employeeReducer.curentpage <
+                    Math.ceil(employeeReducer.employeelist.length / 10)
+                  ) {
+                    dispatch(actions.onEdit(employeeReducer.curentpage + 1));
+                  }
+                }}
+              >
+                NEXT
+              </button>
             </div>
           </div>
         </div>
@@ -101,8 +130,10 @@ export default function () {
                   <td>+{employee.mobilephone}</td>
                   <td>{employee.nationality}</td>
                   <td>
-                    <button onClick={() => {}}>EDIT</button>
-
+                    <a href={`/edit/${index}`} onClick={() => {}}>
+                      EDIT
+                    </a>
+                    /
                     <button
                       onClick={() => {
                         dispatch(actions.onDelete(index));
