@@ -2,10 +2,11 @@ import {
   ADDEM,
   UPDATEEM,
   DELETEEM,
-  CHECK,
-  CHECKALL,
-  EDIT,
+  SETSELECTEM,
+  SETSELECTEMALL,
+  SETCURRENTPAGE,
   RESETEMPLOYEE,
+  EDITEMLIST,
 } from '../actionTypes';
 
 const initialState = {
@@ -361,6 +362,11 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, employeelist: state.employeelist.concat(payload) };
     case UPDATEEM:
       return { ...state, employee: payload };
+    case EDITEMLIST:
+      return {
+        ...state,
+        employeelist: payload,
+      };
     case DELETEEM:
       return {
         ...state,
@@ -368,19 +374,19 @@ export default (state = initialState, { type, payload }) => {
           (em, index) => index !== payload
         ),
       };
-    case CHECK:
+
+    case SETSELECTEM:
       return {
         ...state,
-        employeelist: (state.employeelist[payload].isCheck =
-          state.employeelist[payload].isCheck),
+        employeelist: payload,
       };
-    case CHECKALL:
+    case SETSELECTEMALL:
       return {
         ...state,
         employeelist: payload,
       };
 
-    case EDIT:
+    case SETCURRENTPAGE:
       return {
         ...state,
         curentpage: payload,

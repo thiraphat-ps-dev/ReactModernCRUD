@@ -4,11 +4,17 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import * as actions from '../../redux/actions/employee.action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { useHistory } from 'react-router-dom';
+// CommonJS
 
 export default function () {
+  let history = useHistory();
+  const id = window.location.pathname.split('/')[2];
   const dispatch = useDispatch();
-
+  let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
+  const Swal = require('sweetalert2');
   const intialState = {
     title: '',
     firstname: '',
@@ -21,19 +27,23 @@ export default function () {
     expectedsalary: '',
     isCheck: false,
   };
-  const [employee, setEmployee] = useState(intialState);
-  const [phone, setPhone] = useState('');
-  const [citizenid, setCitizenid] = useState({
-    num1: '',
-    num2: '',
-    num3: '',
-    num4: '',
-    num5: '',
-  });
-  const [nationality, setNationality] = useState();
+  const [employee, setEmployee] = useState(
+    employeeReducer.employeelist[id] || intialState
+  );
+  const [phone, setPhone] = useState(
+    employeeReducer.employeelist[id].mobilephone
+  );
+  const [citizenid, setCitizenid] = useState(
+    employeeReducer.employeelist[id].citizenid
+  );
+  const [nationality, setNationality] = useState(
+    employeeReducer.employeelist[id].nationality
+  );
 
   return (
     <div>
+      {/* <div>{JSON.stringify(employee)}</div>
+      {window.location.pathname.split('/')[2]} */}
       <form
         className="form-employee"
         onChange={() => {
@@ -54,7 +64,15 @@ export default function () {
             <label htmlFor="">
               Title :<sup>*</sup>
             </label>
-            <select>
+            <select
+              value={employee.title}
+              onChange={(e) => {
+                setEmployee({
+                  ...employee,
+                  title: e.target.value,
+                });
+              }}
+            >
               <option value="Mr" defaultValue>
                 Mr
               </option>
@@ -73,7 +91,7 @@ export default function () {
                 document.querySelector('.firstname').classList.remove('error');
                 setEmployee({
                   ...employee,
-                  firstname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
+                  firstname: e.target.value,
                 });
               }}
             />
@@ -90,7 +108,7 @@ export default function () {
                 document.querySelector('.lastname').classList.remove('error');
                 setEmployee({
                   ...employee,
-                  lastname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
+                  lastname: e.target.value,
                 });
               }}
             />
@@ -227,7 +245,10 @@ export default function () {
                     num2: citizenid.num2,
                     num3: citizenid.num3,
                     num4: citizenid.num4,
-                    num5: citizenid.num5,
+                    num5:
+                      e.target.value.replace(/[^0-9]+/g, '').length <= 1
+                        ? e.target.value.replace(/[^0-9]+/g, '')
+                        : citizenid.num5,
                   },
                 });
               }}
@@ -338,7 +359,7 @@ export default function () {
           <div className="block-input">
             <button
               type="button"
-              onClick={() => {
+              onClick={async () => {
                 if (!employee.firstname) {
                   document.querySelector('.firstname').classList.add('error');
                 }
@@ -372,7 +393,12 @@ export default function () {
                 ) {
                   document.querySelector('.error-msg').classList.add('error');
                 } else {
-                  dispatch(actions.onAdd(employee));
+                  employeeReducer.employeelist[id] = employee;
+                  let newarr = employeeReducer.employeelist;
+                  // console.log(employeeReducer.employeelist[id] = employee)
+                  console.log(newarr);
+                  dispatch(actions.onEditEmList(newarr));
+                  // dispatch(actions.onReset());
                   setPhone('');
                   setCitizenid({
                     num1: '',
@@ -383,12 +409,19 @@ export default function () {
                   });
                   setNationality('');
                   setEmployee(intialState);
-
+                  await Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  history.push('/');
                   console.log('Add Success');
                 }
               }}
             >
-              SUBMIT
+              SAVE
             </button>
           </div>
         </div>

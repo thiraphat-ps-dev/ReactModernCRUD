@@ -11,11 +11,15 @@ class index extends Component {
           Requirement
         </p>
         <ol>
-          <li>Using React and Redux</li>
-          <li>Save all data in local-storage</li>
-          <li>Provide validation for all fields</li>
-          <li>Eget erat</li>
-          <li>Id porttitor</li>
+          <li>
+            Using React and Redux - This Project Using ReactJs, React-Hook,
+            Redux, Redux Thunk, Redux Persist
+          </li>
+
+          <li>Save all data in local-storage - Data save to localStorage with redux persist</li>
+          <li>Provide validation for all fields - validation fields is required</li>
+          <li>Write npm start command to run application - Write intallation in readme.md</li>
+          <li>Provide CRUD Data form - CRUD Data by react useState, redux</li>
         </ol>
       </div>
     );

@@ -2,15 +2,21 @@ import {
   ADDEM,
   DELETEEM,
   UPDATEEM,
-  CHECK,
-  CHECKALL,
-  EDIT,
+  SETSELECTEM,
+  SETSELECTEMALL,
+  SETCURRENTPAGE,
   RESETEMPLOYEE,
+  EDITEMLIST,
 } from '../actionTypes';
 
 const setAddEmployeelistAction = (value) => ({
   type: ADDEM,
   payload: value,
+});
+const setEditEmployeelistAction = (value) => ({
+  type: EDITEMLIST,
+  payload: 
+  value,
 });
 
 const setUpdateEmployeelistAction = (value) => ({
@@ -23,16 +29,16 @@ const setDeleteEmployeelistAction = (index) => ({
   payload: index,
 });
 const setCheckEmployeelistAction = (index) => ({
-  type: CHECK,
+  type: SETSELECTEM,
   payload: index,
 });
 const setCheckAllEmployeelistAction = (index) => ({
-  type: CHECKALL,
+  type: SETSELECTEMALL,
   payload: index,
 });
 
-const setEditEmployeeAction = (index) => ({
-  type: EDIT,
+const setCurrentPageAction = (index) => ({
+  type: SETCURRENTPAGE,
   payload: index,
 });
 
@@ -43,6 +49,11 @@ const setResetEmployeeAction = () => ({
 export const onAdd = (value) => {
   return (dispatch) => {
     dispatch(setAddEmployeelistAction(value));
+  };
+};
+export const onEditEmList = ( value) => {
+  return (dispatch) => {
+    dispatch(setEditEmployeelistAction( value));
   };
 };
 export const onUpdate = (value) => {
@@ -69,9 +80,9 @@ export const onCheckall = (value) => {
   };
 };
 
-export const onEdit = (value) => {
+export const onSetCurrentPage = (value) => {
   return (dispatch) => {
-    dispatch(setEditEmployeeAction(value));
+    dispatch(setCurrentPageAction(value));
   };
 };
 

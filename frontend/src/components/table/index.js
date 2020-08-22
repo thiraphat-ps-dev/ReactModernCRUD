@@ -3,11 +3,13 @@ import './table.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../redux/actions/employee.action';
+import { Route, NavLink, BrowserRouter } from 'react-router-dom';
 
 export default function () {
   const dispatch = useDispatch();
   const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
+  console.log(employeeReducer.employeelist.sort());
   return (
     <div>
       <div className="table-container">
@@ -26,7 +28,16 @@ export default function () {
                     el
                   ) {
                     var o = Object.assign({}, el);
-                    o.isCheck = !employeeReducer.employeelist[0].isCheck;
+                    if (
+                      !employeeReducer.employeelist.some(
+                        (em) => em.isCheck === false
+                      )
+                    ) {
+                      o.isCheck = false;
+                    } else {
+                      o.isCheck = true;
+                    }
+
                     return o;
                   });
                   dispatch(actions.onCheckall(result));
@@ -34,14 +45,28 @@ export default function () {
               />
               <span> Select All</span>
             </div>
-            <button>DELETE</button>
+            <button
+              onClick={() => {
+                dispatch(
+                  actions.onEditEmList(
+                    employeeReducer.employeelist.filter(
+                      (em, index) => em.isCheck !== true
+                    )
+                  )
+                );
+              }}
+            >
+              DELETE
+            </button>
           </div>
           <div className="right">
             <div className="navigation-bar">
               <button
                 onClick={() => {
                   if (employeeReducer.curentpage !== 1) {
-                    dispatch(actions.onEdit(employeeReducer.curentpage - 1));
+                    dispatch(
+                      actions.onSetCurrentPage(employeeReducer.curentpage - 1)
+                    );
                   }
                 }}
               >
@@ -51,7 +76,7 @@ export default function () {
               {Math.ceil(employeeReducer.employeelist.length / 10) === 0 ? (
                 <button
                   onClick={() => {
-                    dispatch(actions.onEdit(1));
+                    dispatch(actions.onSetCurrentPage(1));
                   }}
                 >
                   1
@@ -67,7 +92,7 @@ export default function () {
                   <button
                     key={employee}
                     onClick={() => {
-                      dispatch(actions.onEdit(index + 1));
+                      dispatch(actions.onSetCurrentPage(index + 1));
                     }}
                   >
                     {index + 1}
@@ -80,7 +105,9 @@ export default function () {
                     employeeReducer.curentpage <
                     Math.ceil(employeeReducer.employeelist.length / 10)
                   ) {
-                    dispatch(actions.onEdit(employeeReducer.curentpage + 1));
+                    dispatch(
+                      actions.onSetCurrentPage(employeeReducer.curentpage + 1)
+                    );
                   }
                 }}
               >
@@ -100,6 +127,7 @@ export default function () {
               <th>ACTION</th>
             </tr>
           </thead>
+          {/* {JSON.stringify(employeeReducer.employeelist.reverse())} */}
           <tbody>
             {_.map(
               employeeReducer.employeelist.slice(
@@ -116,12 +144,16 @@ export default function () {
                       type="checkbox"
                       checked={employee.isCheck}
                       onChange={() => {
-                        console.log('ckicj');
-                        console.table(employeeReducer.employeelist);
-
-                        dispatch(
-                          actions.onUpdate(employeeReducer.employeelist)
-                        );
+                        employeeReducer.employeelist[
+                          employeeReducer.employeelist.findIndex(
+                            (sum) => sum.firstname === employee.firstname
+                          )
+                        ].isCheck = !employeeReducer.employeelist[
+                          employeeReducer.employeelist.findIndex(
+                            (sum) => sum.firstname === employee.firstname
+                          )
+                        ].isCheck;
+                        dispatch(actions.onCheck(employeeReducer.employeelist));
                       }}
                     />
                   </td>
@@ -130,13 +162,26 @@ export default function () {
                   <td>+{employee.mobilephone}</td>
                   <td>{employee.nationality}</td>
                   <td>
-                    <a href={`/edit/${index}`} onClick={() => {}}>
-                      EDIT
-                    </a>
+                    <NavLink
+                      style={{ backgroundColor: 'transparent' }}
+                      to={`/edit/${employeeReducer.employeelist.findIndex(
+                        (sum) => sum.firstname === employee.firstname
+                      )}`}
+                    >
+                      <button
+                        onClick={() => {
+                          dispatch(actions.onUpdate(employee));
+                        }}
+                      >
+                        EDIT
+                      </button>
+                    </NavLink>
                     /
                     <button
                       onClick={() => {
-                        dispatch(actions.onDelete(index));
+                        dispatch(actions.onDelete(employeeReducer.employeelist.findIndex(
+                          (sum) => sum.firstname === employee.firstname
+                        )));
                       }}
                     >
                       DELETE

@@ -24,7 +24,7 @@ const Main = () => {
         <div className="content">
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
-          <Route path="/edit/id" component={Edit} />
+          <Route path="/edit/:id" component={Edit} />
         </div>
       </div>
     </BrowserRouter>

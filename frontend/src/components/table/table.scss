@@ -39,14 +39,27 @@
         margin-left: 10px;
         background: transparent;
         border: 2px solid #555555;
+        cursor: pointer;
+        &:active{
+          transform: translateY(2px);
+        }
       }
     }
     > .right {
-      a {
+      button {
+        border: none;
+        background-color: transparent;
+        border-bottom: 2px solid black;
         font-weight: 500;
-        margin: 5px;
+        margin: 10px 5px;
+        padding: 0;
         color: #000000;
-        font-size: 18px;
+        font-size: 16px;
+        outline: none;
+        cursor: pointer;
+        &:active{
+          transform: translateY(2px);
+        }
       }
     }
   }
@@ -87,6 +100,10 @@
           font-weight: 500;
           color: #000000;
           cursor: pointer;
+          background-color: transparent;
+          &:active{
+            transform: translateY(2px);
+          }
         }
         &:first-child {
           input {
@@ -102,18 +119,4 @@
       }
     }
   }
-}
-
-.popup-edit {
-  // top: 50%;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
-  // background-color: red;
-  // width: 500px;
-  // height: 500px;
-  position: absolute;
-  // width: 830px;
-  width: 100vw;
-  height: 100vh;
-  background-color: gray;
 }

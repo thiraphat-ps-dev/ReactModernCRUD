@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './form.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import * as actions from '../../redux/actions/employee.action';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function () {
   const dispatch = useDispatch();
+  let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
   const intialState = {
     title: '',
@@ -21,7 +22,11 @@ export default function () {
     expectedsalary: '',
     isCheck: false,
   };
-  const [employee, setEmployee] = useState(intialState);
+  const [employee, setEmployee] = useState(
+    // employeeReducer.employee
+    // ||
+    intialState
+  );
   const [phone, setPhone] = useState('');
   const [citizenid, setCitizenid] = useState({
     num1: '',
@@ -34,6 +39,7 @@ export default function () {
 
   return (
     <div>
+      {/* <div>{JSON.stringify(employee)}</div> */}
       <form
         className="form-employee"
         onChange={() => {
@@ -54,7 +60,15 @@ export default function () {
             <label htmlFor="">
               Title :<sup>*</sup>
             </label>
-            <select>
+            <select
+              value={employee.title}
+              onChange={(e) => {
+                setEmployee({
+                  ...employee,
+                  title: e.target.value,
+                });
+              }}
+            >
               <option value="Mr" defaultValue>
                 Mr
               </option>
@@ -73,7 +87,7 @@ export default function () {
                 document.querySelector('.firstname').classList.remove('error');
                 setEmployee({
                   ...employee,
-                  firstname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
+                  firstname: e.target.value,
                 });
               }}
             />
@@ -90,7 +104,7 @@ export default function () {
                 document.querySelector('.lastname').classList.remove('error');
                 setEmployee({
                   ...employee,
-                  lastname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
+                  lastname: e.target.value,
                 });
               }}
             />
@@ -373,6 +387,7 @@ export default function () {
                   document.querySelector('.error-msg').classList.add('error');
                 } else {
                   dispatch(actions.onAdd(employee));
+                  dispatch(actions.onReset());
                   setPhone('');
                   setCitizenid({
                     num1: '',
