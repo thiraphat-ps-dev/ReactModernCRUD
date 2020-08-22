@@ -352,7 +352,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         employeelist: state.employeelist.filter(
-          (em, index) => index != payload
+          (em, index) => index !== payload
         ),
       };
     case CHECK:
@@ -364,9 +364,7 @@ export default (state = initialState, { type, payload }) => {
     case CHECKALL:
       return {
         ...state,
-        employeelist: state.employeelist.filter(
-          (em, index) => index != payload
-        ),
+        employeelist: payload,
       };
 
     case EDIT:

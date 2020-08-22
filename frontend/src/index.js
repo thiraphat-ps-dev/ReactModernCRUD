@@ -1,21 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import './App.css';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 
-import reducer from './redux/reducers';
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import Main from './Main';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from './redux/store';
 const { persistor, store } = configureStore();
-
-// const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <React.StrictMode>

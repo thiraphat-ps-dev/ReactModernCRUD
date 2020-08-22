@@ -7,7 +7,8 @@ class index extends Component {
       <div>
         <h2>Proposition</h2>
         <p>
-          Create SPA (Single Page Application) as mock up follow below Requirement
+          Create SPA (Single Page Application) as mock up follow below
+          Requirement
         </p>
         <ol>
           <li>Using React and Redux</li>

@@ -3,9 +3,11 @@ import './table.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import * as actions from '../../redux/actions/employee.action';
+
 export default function () {
   const dispatch = useDispatch();
   let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
+
   return (
     <div>
       <div className="table-container">
@@ -14,13 +16,21 @@ export default function () {
             <div className="select-all">
               <input
                 type="checkbox"
-                name=""
-                id=""
                 checked={
                   !employeeReducer.employeelist.some(
                     (em) => em.isCheck === false
                   )
                 }
+                onChange={() => {
+                  const result = employeeReducer.employeelist.map(function (
+                    el
+                  ) {
+                    var o = Object.assign({}, el);
+                    o.isCheck = !employeeReducer.employeelist[0].isCheck;
+                    return o;
+                  });
+                  dispatch(actions.onCheckall(result));
+                }}
               />
               <span> Select All</span>
             </div>
@@ -28,25 +38,25 @@ export default function () {
           </div>
           <div className="right">
             <div className="navigation-bar">
-              <a href="#">PREV</a>
+              <button>PREV</button>
               {_.map(
                 employeeReducer.employeelist.slice(
                   0,
                   employeeReducer.employeelist.length / 10
                 ),
                 (employee, index) => (
-                  <a
+                  <button
                     key={employee}
                     onClick={() => {
                       dispatch(actions.onEdit(index + 1));
                     }}
                   >
                     {index + 1}
-                  </a>
+                  </button>
                 )
               )}
 
-              <a href="#">NEXT</a>
+              <button>NEXT</button>
             </div>
           </div>
         </div>
@@ -75,10 +85,8 @@ export default function () {
                   <td>
                     <input
                       type="checkbox"
-                      name=""
-                      id=""
                       checked={employee.isCheck}
-                      onClick={() => {
+                      onChange={() => {
                         console.log('ckicj');
                         console.table(employeeReducer.employeelist);
 
@@ -93,18 +101,15 @@ export default function () {
                   <td>+{employee.mobilephone}</td>
                   <td>{employee.nationality}</td>
                   <td>
-                    <a href="#" onClick={() => {}}>
-                      EDIT
-                    </a>{' '}
-                    /{' '}
-                    <a
-                      href="#"
+                    <button onClick={() => {}}>EDIT</button>
+
+                    <button
                       onClick={() => {
                         dispatch(actions.onDelete(index));
                       }}
                     >
                       DELETE
-                    </a>
+                    </button>
                   </td>
                 </tr>
               )

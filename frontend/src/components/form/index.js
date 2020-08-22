@@ -4,11 +4,10 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import * as actions from '../../redux/actions/employee.action';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function () {
   const dispatch = useDispatch();
-  const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
   const intialState = {
     title: '',
@@ -32,7 +31,7 @@ export default function () {
     num5: '',
   });
   const [nationality, setNationality] = useState();
-  console.table(employeeReducer.employee.firstname);
+
   return (
     <div>
       <form
@@ -55,7 +54,7 @@ export default function () {
             <label htmlFor="">
               Title :<sup>*</sup>
             </label>
-            <select name="" id="">
+            <select>
               <option value="Mr" defaultValue>
                 Mr
               </option>
@@ -105,14 +104,11 @@ export default function () {
             <input
               className="birthday"
               type="date"
-              name=""
-              id=""
               value={employee.birthday}
               onChange={(e) => {
-                // console.log(e.target.value);
                 document.querySelector('.birthday').classList.remove('error');
                 setEmployee({ ...employee, birthday: e.target.value });
-                // console.table('data', employee);
+
                 if (
                   employee.firstname &&
                   employee.lastname &&
@@ -245,10 +241,8 @@ export default function () {
           <div className="block-input">
             <input
               type="checkbox"
-              name=""
-              id=""
               checked={employee.gender === 'male' ? true : false}
-              onClick={() => {
+              onChange={() => {
                 setEmployee({ ...employee, gender: 'male' });
               }}
             />
@@ -258,10 +252,8 @@ export default function () {
           <div className="block-input">
             <input
               type="checkbox"
-              name=""
-              id=""
               checked={employee.gender === 'female' ? true : false}
-              onClick={() => {
+              onChange={() => {
                 setEmployee({ ...employee, gender: 'female' });
               }}
             />
@@ -271,10 +263,8 @@ export default function () {
           <div className="block-input">
             <input
               type="checkbox"
-              name=""
-              id=""
               checked={employee.gender === 'unisex' ? true : false}
-              onClick={() => {
+              onChange={() => {
                 setEmployee({ ...employee, gender: 'unisex' });
               }}
             />
@@ -296,7 +286,7 @@ export default function () {
                 document
                   .querySelector('.react-tel-input')
                   .classList.remove('error');
-
+                setPhone(phone);
                 console.log(phone);
                 setEmployee({ ...employee, mobilephone: phone });
               }}

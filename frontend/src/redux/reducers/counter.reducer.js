@@ -1,4 +1,4 @@
-import { INCREMENT, DECREMENT, INCREMENT_IF_ODD, ADD } from '../actionTypes';
+import { INCREMENT, DECREMENT, ADD } from '../actionTypes';
 
 const initialState = {
   count: 0,

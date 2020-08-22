@@ -1,16 +1,9 @@
-import React, { Component } from 'react';
-import { Route, NavLink, HashRouter, BrowserRouter } from 'react-router-dom';
+import React from 'react';
+import { Route, NavLink, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home/index';
 import About from './pages/About/index';
 
-
-import * as actions from './redux/actions/counter.action';
-import { useDispatch, useSelector } from 'react-redux';
-
 const Main = () => {
-  const dispatch = useDispatch();
-  const counterReducer = useSelector(({ counterReducer }) => counterReducer);
-
   // render() {
   return (
     <BrowserRouter>
