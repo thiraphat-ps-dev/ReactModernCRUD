@@ -7,23 +7,27 @@ import {
   RegionDropdown,
   CountryRegionData,
 } from 'react-country-region-selector';
+import * as actions from '../../redux/actions/employee.action';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function () {
+  const dispatch = useDispatch();
+  const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
+
   const intialState = {
     title: '',
     firstname: '',
     lastname: '',
     birthday: '',
-    nationality: '',
-    // citizenid: {},
     gender: '',
     mobilephone: '',
+    citizenid: { num1: '', num2: '', num3: '', num4: '', num5: '' },
     passport: '',
     expectedsalary: '',
+    isCheck: false,
   };
   const [employee, setEmployee] = useState(intialState);
-  const [employeeList, setEmployeeList] = useState([]);
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState('');
   const [citizenid, setCitizenid] = useState({
     num1: '',
     num2: '',
@@ -31,10 +35,25 @@ export default function () {
     num4: '',
     num5: '',
   });
-
+  const [nationality, setNationality] = useState();
+  console.table(employeeReducer.employee.firstname);
   return (
     <div>
-      <form className="form-employee">
+      <form
+        className="form-employee"
+        onChange={() => {
+          if (
+            employee.firstname &&
+            employee.lastname &&
+            employee.birthday &&
+            nationality &&
+            phone &&
+            employee.expectedsalary
+          ) {
+            document.querySelector('.error-msg').classList.remove('error');
+          }
+        }}
+      >
         <div className="row-name">
           <div className="block-input">
             <label htmlFor="">
@@ -52,9 +71,11 @@ export default function () {
               Firstname :<sup>*</sup>
             </label>
             <input
+              className="firstname"
               type="text"
               value={employee.firstname}
               onChange={(e) => {
+                document.querySelector('.firstname').classList.remove('error');
                 setEmployee({
                   ...employee,
                   firstname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
@@ -67,9 +88,11 @@ export default function () {
               Lastname :<sup>*</sup>
             </label>
             <input
+              className="lastname"
               type="text"
               value={employee.lastname}
               onChange={(e) => {
+                document.querySelector('.lastname').classList.remove('error');
                 setEmployee({
                   ...employee,
                   lastname: e.target.value.replace(/[^a-zA-Z]+/g, ''),
@@ -84,12 +107,28 @@ export default function () {
               Birthday :<sup>*</sup>
             </label>
             <input
+              className="birthday"
               type="date"
               name=""
               id=""
               value={employee.birthday}
               onChange={(e) => {
+                // console.log(e.target.value);
+                document.querySelector('.birthday').classList.remove('error');
                 setEmployee({ ...employee, birthday: e.target.value });
+                // console.table('data', employee);
+                if (
+                  employee.firstname &&
+                  employee.lastname &&
+                  employee.birthday &&
+                  nationality &&
+                  phone &&
+                  employee.expectedsalary
+                ) {
+                  document
+                    .querySelector('.error-msg')
+                    .classList.remove('error');
+                }
               }}
             />
           </div>
@@ -99,11 +138,17 @@ export default function () {
               Nationality :<sup>*</sup>
             </label>
             <CountryDropdown
+              className="nationality"
               style={{ padding: '0', width: '300px' }}
               defaultOptionLabel={'-- Please Select --'}
-              value={employee.nationality}
-              onChange={(e) => {
-                setEmployee({ ...employee, nationality: e.target.value });
+              value={nationality}
+              onChange={(nationality) => {
+                document
+                  .querySelector('.nationality')
+                  .classList.remove('error');
+                console.log(nationality);
+                setNationality(nationality);
+                setEmployee({ ...employee, nationality: nationality });
               }}
             />
           </div>
@@ -113,60 +158,88 @@ export default function () {
             <label htmlFor="">CitizenID :</label>
             <input
               type="text"
-              style={{ width: '100px' }}
+              style={{ width: '10px' }}
               value={citizenid.num1}
               onChange={(e) => {
                 setCitizenid({
                   ...citizenid,
                   num1:
                     e.target.value.replace(/[^0-9]+/g, '').length <= 1
-                      ? e.target.value.replace(/[^0-9]+/g, '').length <= 1
+                      ? e.target.value.replace(/[^0-9]+/g, '')
                       : citizenid.num1,
                 });
               }}
-              // onChange={(e) => {
-              //   setEmployee({
-              //     ...employee,
-              //     citizenid: [
-              //       ...employee.citizenid,
-              //       e.target.value.replace(/[^0-9]+/g, '').length <= 1
-              //         ? e.target.value.replace(/[^0-9]+/g, '').length
-              //         : employee.citizenid[0],
-              //     ],
-              //   });
-              // }}
             />{' '}
             -{' '}
             <input
               type="text"
-              style={{ width: '80px' }}
-              value={citizenid}
+              style={{ width: '40px' }}
+              value={citizenid.num2}
               onChange={(e) => {
                 setCitizenid({
                   ...citizenid,
-                  citizenid: [e.target.value],
+                  num2:
+                    e.target.value.replace(/[^0-9]+/g, '').length <= 4
+                      ? e.target.value.replace(/[^0-9]+/g, '')
+                      : citizenid.num2,
                 });
               }}
             />{' '}
             -{' '}
             <input
               type="text"
-              style={{ width: '80px' }}
-              // value={employee.citizenid[2]}
-              // onChange={(e) => {
-              //   setEmployee({
-              //     ...employee,
-              //     citizenid: [
-              //       ...employee.citizenid[2],
-              //       e.target.value.replace(/[^0-9]+/g, '').length <= 4
-              //         ? e.target.value.replace(/[^0-9]+/g, '').length
-              //         : employee.citizenid[2],
-              //     ],
-              //   });
-              // }}
+              style={{ width: '50px' }}
+              value={citizenid.num3}
+              onChange={(e) => {
+                setCitizenid({
+                  ...citizenid,
+                  num3:
+                    e.target.value.replace(/[^0-9]+/g, '').length <= 5
+                      ? e.target.value.replace(/[^0-9]+/g, '')
+                      : citizenid.num3,
+                });
+              }}
             />{' '}
-            - <input type="text" style={{ width: '30px' }} /> -{' '}
-            <input type="text" style={{ width: '10px' }} />
+            -{' '}
+            <input
+              type="text"
+              style={{ width: '20px' }}
+              value={citizenid.num4}
+              onChange={(e) => {
+                setCitizenid({
+                  ...citizenid,
+                  num4:
+                    e.target.value.replace(/[^0-9]+/g, '').length <= 2
+                      ? e.target.value.replace(/[^0-9]+/g, '')
+                      : citizenid.num4,
+                });
+              }}
+            />{' '}
+            -{' '}
+            <input
+              type="text"
+              style={{ width: '10px' }}
+              value={citizenid.num5}
+              onChange={(e) => {
+                setCitizenid({
+                  ...citizenid,
+                  num5:
+                    e.target.value.replace(/[^0-9]+/g, '').length <= 1
+                      ? e.target.value.replace(/[^0-9]+/g, '')
+                      : citizenid.num5,
+                });
+                setEmployee({
+                  ...employee,
+                  citizenid: {
+                    num1: citizenid.num1,
+                    num2: citizenid.num2,
+                    num3: citizenid.num3,
+                    num4: citizenid.num4,
+                    num5: citizenid.num5,
+                  },
+                });
+              }}
+            />
           </div>
         </div>
         <div className="row-gender">
@@ -174,17 +247,41 @@ export default function () {
             <label htmlFor="">Gender : </label>
           </div>
           <div className="block-input">
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              checked={employee.gender === 'male' ? true : false}
+              onClick={() => {
+                setEmployee({ ...employee, gender: 'male' });
+              }}
+            />
             <span>male</span>
           </div>
 
           <div className="block-input">
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              checked={employee.gender === 'female' ? true : false}
+              onClick={() => {
+                setEmployee({ ...employee, gender: 'female' });
+              }}
+            />
             <span>female</span>
           </div>
 
           <div className="block-input">
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              checked={employee.gender === 'unisex' ? true : false}
+              onClick={() => {
+                setEmployee({ ...employee, gender: 'unisex' });
+              }}
+            />
             <span>unisex</span>
           </div>
         </div>
@@ -200,6 +297,9 @@ export default function () {
               masks={{ th: '...-...-....' }}
               value={phone}
               onChange={(phone) => {
+                document
+                  .querySelector('.react-tel-input')
+                  .classList.remove('error');
                 setPhone((phone: phone));
                 console.log(phone);
                 setEmployee({ ...employee, mobilephone: phone });
@@ -210,7 +310,17 @@ export default function () {
         <div className="row-passport">
           <div className="block-input">
             <label htmlFor="">Passport No :</label>
-            <input type="text" />
+            <input
+              type="text"
+              className="passport"
+              value={employee.passport}
+              onChange={(e) => {
+                setEmployee({
+                  ...employee,
+                  passport: e.target.value,
+                });
+              }}
+            />
           </div>
         </div>
         <div className="row-sarary">
@@ -218,19 +328,88 @@ export default function () {
             <label htmlFor="">
               Expected Salary :<sup>*</sup>{' '}
             </label>
-            <input type="text" />
+            <input
+              type="text"
+              className="expectedsalary"
+              value={employee.expectedsalary}
+              onChange={(e) => {
+                document
+                  .querySelector('.expectedsalary')
+                  .classList.remove('error');
+                setEmployee({
+                  ...employee,
+                  expectedsalary: e.target.value
+                    .replace(/[^0-9]+/g, '')
+                    .replace(/,/g, '')
+
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                });
+              }}
+            />
             <label style={{ marginLeft: '5px' }}>THB</label>
           </div>
           <div className="block-input">
             <button
               type="button"
               onClick={() => {
-                console.table(employee);
+                if (!employee.firstname) {
+                  document.querySelector('.firstname').classList.add('error');
+                }
+                if (!employee.lastname) {
+                  document.querySelector('.lastname').classList.add('error');
+                }
+                if (!employee.birthday) {
+                  document.querySelector('.birthday').classList.add('error');
+                }
+                if (!nationality) {
+                  document.querySelector('.nationality').classList.add('error');
+                }
+                if (phone.length < 10) {
+                  document
+                    .querySelector('.react-tel-input')
+                    .classList.add('error');
+                }
+                if (!employee.expectedsalary) {
+                  document
+                    .querySelector('.expectedsalary')
+                    .classList.add('error');
+                }
+                console.log(phone);
+                if (
+                  !employee.firstname ||
+                  !employee.lastname ||
+                  !employee.birthday ||
+                  !nationality ||
+                  phone.length < 10 ||
+                  !employee.expectedsalary
+                ) {
+                  document.querySelector('.error-msg').classList.add('error');
+                } else {
+                  dispatch(actions.onAdd(employee));
+                  setPhone('');
+                  setCitizenid({
+                    num1: '',
+                    num2: '',
+                    num3: '',
+                    num4: '',
+                    num5: '',
+                  });
+                  setNationality('');
+                  setEmployee(intialState);
+
+                  console.log('Add Success');
+                }
               }}
             >
               SUBMIT
             </button>
           </div>
+        </div>
+        <div className="row-error">
+          <span className="error-msg">
+            ! Please fill in the required information.
+          </span>
         </div>
       </form>
     </div>

@@ -1,14 +1,39 @@
 import React from 'react';
 import './table.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import _ from 'lodash';
+import * as actions from '../../redux/actions/employee.action';
+import Form from '../form/index';
+export default function () {
+  const dispatch = useDispatch();
+  const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
-export default function index() {
+  // const result = employeeReducer.employeelist.map(function (el) {
+  //   var o = Object.assign({}, el);
+  //   o.isCheck = false;
+  //   return o;
+  // });
+
+  // console.table(result);
+  // console.log(
+  //   employeeReducer.employeelist.some((em, index) => em.isCheck === false)
+  // );
   return (
     <div>
       <div className="table-container">
         <div className="header">
           <div className="left">
             <div className="select-all">
-              <input type="checkbox" name="" id="" />
+              <input
+                type="checkbox"
+                name=""
+                id=""
+                checked={
+                  !employeeReducer.employeelist.some(
+                    (em, index) => em.isCheck === false
+                  )
+                }
+              />
               <span> Select All</span>
             </div>
             <button>DELETE</button>
@@ -38,162 +63,45 @@ export default function index() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <input type="checkbox" name="" id="" />
-              </td>
-              <td>John Doe</td>
-              <td>Female</td>
-              <td>++660899862641</td>
-              <td>THAI</td>
-              <td>
-                <a href="#">EDIT</a> / <a href="#">DELETE</a>
-              </td>
-            </tr>
+            {_.map(employeeReducer.employeelist, (employee, index) => (
+              <tr className={`${employee.isCheck ? 'active' : ''}`} key={index}>
+                <td>
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    checked={employee.isCheck}
+                    onClick={() => {
+                      console.log('ckicj');
+                      const newArr = (employeeReducer.employeelist[
+                        index
+                      ].isCheck = !employee.isCheck);
+                      console.table(employeeReducer.employeelist);
+
+                      dispatch(actions.onUpdate(employeeReducer.employeelist));
+                    }}
+                  />
+                </td>
+                <td>{`${employee.firstname}  ${employee.lastname}`}</td>
+                <td>{employee.gender || '-'}</td>
+                <td>+{employee.mobilephone}</td>
+                <td>{employee.nationality}</td>
+                <td>
+                  <a href={`/edit/${index}`} onClick={() => {}}>
+                    EDIT
+                  </a>{' '}
+                  /{' '}
+                  <a
+                    href="#"
+                    onClick={() => {
+                      dispatch(actions.onDelete(index));
+                    }}
+                  >
+                    DELETE
+                  </a>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

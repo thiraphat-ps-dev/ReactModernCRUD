@@ -16,12 +16,18 @@
     padding: 0 10px;
     border: 2px solid #555555;
     background-color: transparent;
+    &.error {
+      border: 2px solid red;
+    }
   }
   select {
     // padding: 5px;
     height: 27px;
     box-shadow: 0px 0px 0px 1px black;
     background-color: transparent;
+    &.error {
+      border: 2px solid red;
+    }
   }
   .row-name,
   .row-date,
@@ -79,7 +85,10 @@
       transform: translateY(5px);
       input {
         background-color: transparent !important;
-       height: 26px;
+        height: 26px;
+      }
+      &.error {
+        border: 2px solid red;
       }
     }
     .block-input {
@@ -95,12 +104,27 @@
     }
   }
   .row-sarary {
-
-    button{
-
-        &:active{
-            transform: translateY(2px);
-        }
+    button {
+      &:active {
+        transform: translateY(2px);
+      }
+    }
+  }
+  .row-error {
+    display: flex;
+    flex-direction: row;
+    span {
+      visibility: hidden;
+      background-color: red;
+      color: white;
+      border-radius: 5px;
+      padding: 0px 10px;
+      font-weight: 600;
+      font-size: 18px;
+      margin-right: 10px;
+      &.error{
+        visibility: visible;
+      }
     }
   }
 }
