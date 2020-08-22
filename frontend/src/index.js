@@ -11,13 +11,19 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import Main from './Main';
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+import { PersistGate } from 'redux-persist/integration/react';
+import configureStore from './redux/store';
+const { persistor, store } = configureStore();
+
+// const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <App /> */}
-      <Main />,
+      <PersistGate loading={null} persistor={persistor}>
+        {/* <App /> */}
+        <Main />,
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

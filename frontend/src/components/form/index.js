@@ -41,7 +41,7 @@ export default function () {
               Title :<sup>*</sup>
             </label>
             <select name="" id="">
-              <option value="Mr" selected>
+              <option value="Mr" defaultValue>
                 Mr
               </option>
               <option value="Ms">Ms</option>
