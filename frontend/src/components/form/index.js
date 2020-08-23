@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './form.scss';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import * as actions from '../../redux/actions/employee.action';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function () {
   const dispatch = useDispatch();
-  let employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
-
+  const Swal = require('sweetalert2');
   const intialState = {
     title: '',
     firstname: '',
@@ -22,11 +21,7 @@ export default function () {
     expectedsalary: '',
     isCheck: false,
   };
-  const [employee, setEmployee] = useState(
-    // employeeReducer.employee
-    // ||
-    intialState
-  );
+  const [employee, setEmployee] = useState(intialState);
   const [phone, setPhone] = useState('');
   const [citizenid, setCitizenid] = useState({
     num1: '',
@@ -37,22 +32,120 @@ export default function () {
   });
   const [nationality, setNationality] = useState();
 
+  const validateForm = () => {
+    if (
+      employee.firstname &&
+      employee.lastname &&
+      employee.birthday &&
+      nationality &&
+      phone &&
+      employee.expectedsalary
+    ) {
+      document.querySelector('.error-msg').classList.remove('error');
+    }
+  };
+
+  const onFirstnameChange = (firstname) => {
+    document.querySelector('.firstname').classList.remove('error');
+    setEmployee({
+      ...employee,
+      firstname: firstname,
+    });
+  };
+
+  const onLastnameChange = (lastname) => {
+    document.querySelector('.lastname').classList.remove('error');
+    setEmployee({
+      ...employee,
+      lastname: lastname,
+    });
+  };
+
+  const onTitleChange = (title) => {
+    setEmployee({
+      ...employee,
+      title: title,
+    });
+  };
+  const onBirthdayChange = (date) => {
+    document.querySelector('.birthday').classList.remove('error');
+    setEmployee({ ...employee, birthday: date });
+
+    if (
+      employee.firstname &&
+      employee.lastname &&
+      employee.birthday &&
+      nationality &&
+      phone &&
+      employee.expectedsalary
+    ) {
+      document.querySelector('.error-msg').classList.remove('error');
+    }
+  };
+  const onNationalityChange = (nationality) => {
+    document.querySelector('.nationality').classList.remove('error');
+    setNationality(nationality);
+    setEmployee({ ...employee, nationality: nationality });
+  };
+
+  const onPhoneChange = (phone) => {
+    document.querySelector('.react-tel-input').classList.remove('error');
+    setPhone(phone);
+    console.log(phone);
+    setEmployee({ ...employee, mobilephone: phone });
+  };
+  const onSalaryChange = (salary) => {
+    document.querySelector('.expectedsalary').classList.remove('error');
+    setEmployee({
+      ...employee,
+      expectedsalary: salary
+        .replace(/[^0-9]+/g, '')
+        .replace(/,/g, '')
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+    });
+  };
+  const validateInput = () => {
+    if (!employee.firstname) {
+      document.querySelector('.firstname').classList.add('error');
+    }
+    if (!employee.lastname) {
+      document.querySelector('.lastname').classList.add('error');
+    }
+    if (!employee.birthday) {
+      document.querySelector('.birthday').classList.add('error');
+    }
+    if (!nationality) {
+      document.querySelector('.nationality').classList.add('error');
+    }
+    if (phone.length < 10) {
+      document.querySelector('.react-tel-input').classList.add('error');
+    }
+    if (!employee.expectedsalary) {
+      document.querySelector('.expectedsalary').classList.add('error');
+    }
+  };
+
+  const onResetForm = () => {
+    dispatch(actions.onReset());
+    setPhone('');
+    setCitizenid({
+      num1: '',
+      num2: '',
+      num3: '',
+      num4: '',
+      num5: '',
+    });
+    setNationality('');
+    setEmployee(intialState);
+  };
+
   return (
     <div>
-      {/* <div>{JSON.stringify(employee)}</div> */}
       <form
         className="form-employee"
         onChange={() => {
-          if (
-            employee.firstname &&
-            employee.lastname &&
-            employee.birthday &&
-            nationality &&
-            phone &&
-            employee.expectedsalary
-          ) {
-            document.querySelector('.error-msg').classList.remove('error');
-          }
+          validateForm();
         }}
       >
         <div className="row-name">
@@ -63,10 +156,7 @@ export default function () {
             <select
               value={employee.title}
               onChange={(e) => {
-                setEmployee({
-                  ...employee,
-                  title: e.target.value,
-                });
+                onTitleChange(e.target.value);
               }}
             >
               <option value="Mr" defaultValue>
@@ -84,11 +174,7 @@ export default function () {
               type="text"
               value={employee.firstname}
               onChange={(e) => {
-                document.querySelector('.firstname').classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  firstname: e.target.value,
-                });
+                onFirstnameChange(e.target.value);
               }}
             />
           </div>
@@ -101,11 +187,7 @@ export default function () {
               type="text"
               value={employee.lastname}
               onChange={(e) => {
-                document.querySelector('.lastname').classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  lastname: e.target.value,
-                });
+                onLastnameChange(e.target.value);
               }}
             />
           </div>
@@ -120,21 +202,7 @@ export default function () {
               type="date"
               value={employee.birthday}
               onChange={(e) => {
-                document.querySelector('.birthday').classList.remove('error');
-                setEmployee({ ...employee, birthday: e.target.value });
-
-                if (
-                  employee.firstname &&
-                  employee.lastname &&
-                  employee.birthday &&
-                  nationality &&
-                  phone &&
-                  employee.expectedsalary
-                ) {
-                  document
-                    .querySelector('.error-msg')
-                    .classList.remove('error');
-                }
+                onBirthdayChange(e.target.value);
               }}
             />
           </div>
@@ -149,12 +217,7 @@ export default function () {
               defaultOptionLabel={'-- Please Select --'}
               value={nationality}
               onChange={(nationality) => {
-                document
-                  .querySelector('.nationality')
-                  .classList.remove('error');
-                console.log(nationality);
-                setNationality(nationality);
-                setEmployee({ ...employee, nationality: nationality });
+                onNationalityChange(nationality);
               }}
             />
           </div>
@@ -297,12 +360,7 @@ export default function () {
               masks={{ th: '...-...-....' }}
               value={phone}
               onChange={(phone) => {
-                document
-                  .querySelector('.react-tel-input')
-                  .classList.remove('error');
-                setPhone(phone);
-                console.log(phone);
-                setEmployee({ ...employee, mobilephone: phone });
+                onPhoneChange(phone);
               }}
             />
           </div>
@@ -333,18 +391,7 @@ export default function () {
               className="expectedsalary"
               value={employee.expectedsalary}
               onChange={(e) => {
-                document
-                  .querySelector('.expectedsalary')
-                  .classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  expectedsalary: e.target.value
-                    .replace(/[^0-9]+/g, '')
-                    .replace(/,/g, '')
-
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                });
+                onSalaryChange(e.target.value);
               }}
             />
             <label style={{ marginLeft: '5px' }}>THB</label>
@@ -352,30 +399,8 @@ export default function () {
           <div className="block-input">
             <button
               type="button"
-              onClick={() => {
-                if (!employee.firstname) {
-                  document.querySelector('.firstname').classList.add('error');
-                }
-                if (!employee.lastname) {
-                  document.querySelector('.lastname').classList.add('error');
-                }
-                if (!employee.birthday) {
-                  document.querySelector('.birthday').classList.add('error');
-                }
-                if (!nationality) {
-                  document.querySelector('.nationality').classList.add('error');
-                }
-                if (phone.length < 10) {
-                  document
-                    .querySelector('.react-tel-input')
-                    .classList.add('error');
-                }
-                if (!employee.expectedsalary) {
-                  document
-                    .querySelector('.expectedsalary')
-                    .classList.add('error');
-                }
-                console.log(phone);
+              onClick={async () => {
+                validateInput();
                 if (
                   !employee.firstname ||
                   !employee.lastname ||
@@ -386,20 +411,15 @@ export default function () {
                 ) {
                   document.querySelector('.error-msg').classList.add('error');
                 } else {
-                  dispatch(actions.onAdd(employee));
-                  dispatch(actions.onReset());
-                  setPhone('');
-                  setCitizenid({
-                    num1: '',
-                    num2: '',
-                    num3: '',
-                    num4: '',
-                    num5: '',
+                  await dispatch(actions.onAdd(employee));
+                  await Swal.fire({
+                    position: 'center-center',
+                    icon: 'success',
+                    title: 'บันทึกข้อมูลสำเร็จ !',
+                    showConfirmButton: false,
+                    timer: 1500,
                   });
-                  setNationality('');
-                  setEmployee(intialState);
-
-                  console.log('Add Success');
+                  onResetForm();
                 }
               }}
             >

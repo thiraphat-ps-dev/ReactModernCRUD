@@ -40,23 +40,120 @@ export default function () {
     employeeReducer.employeelist[id].nationality
   );
 
+  const validateForm = () => {
+    if (
+      employee.firstname &&
+      employee.lastname &&
+      employee.birthday &&
+      nationality &&
+      phone &&
+      employee.expectedsalary
+    ) {
+      document.querySelector('.error-msg').classList.remove('error');
+    }
+  };
+
+  const onFirstnameChange = (firstname) => {
+    document.querySelector('.firstname').classList.remove('error');
+    setEmployee({
+      ...employee,
+      firstname: firstname,
+    });
+  };
+
+  const onLastnameChange = (lastname) => {
+    document.querySelector('.lastname').classList.remove('error');
+    setEmployee({
+      ...employee,
+      lastname: lastname,
+    });
+  };
+
+  const onTitleChange = (title) => {
+    setEmployee({
+      ...employee,
+      title: title,
+    });
+  };
+  const onBirthdayChange = (date) => {
+    document.querySelector('.birthday').classList.remove('error');
+    setEmployee({ ...employee, birthday: date });
+
+    if (
+      employee.firstname &&
+      employee.lastname &&
+      employee.birthday &&
+      nationality &&
+      phone &&
+      employee.expectedsalary
+    ) {
+      document.querySelector('.error-msg').classList.remove('error');
+    }
+  };
+  const onNationalityChange = (nationality) => {
+    document.querySelector('.nationality').classList.remove('error');
+    setNationality(nationality);
+    setEmployee({ ...employee, nationality: nationality });
+  };
+
+  const onPhoneChange = (phone) => {
+    document.querySelector('.react-tel-input').classList.remove('error');
+    setPhone(phone);
+    console.log(phone);
+    setEmployee({ ...employee, mobilephone: phone });
+  };
+  const onSalaryChange = (salary) => {
+    document.querySelector('.expectedsalary').classList.remove('error');
+    setEmployee({
+      ...employee,
+      expectedsalary: salary
+        .replace(/[^0-9]+/g, '')
+        .replace(/,/g, '')
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+    });
+  };
+  const validateInput = () => {
+    if (!employee.firstname) {
+      document.querySelector('.firstname').classList.add('error');
+    }
+    if (!employee.lastname) {
+      document.querySelector('.lastname').classList.add('error');
+    }
+    if (!employee.birthday) {
+      document.querySelector('.birthday').classList.add('error');
+    }
+    if (!nationality) {
+      document.querySelector('.nationality').classList.add('error');
+    }
+    if (phone.length < 10) {
+      document.querySelector('.react-tel-input').classList.add('error');
+    }
+    if (!employee.expectedsalary) {
+      document.querySelector('.expectedsalary').classList.add('error');
+    }
+  };
+
+  const onResetForm = () => {
+    dispatch(actions.onReset());
+    setPhone('');
+    setCitizenid({
+      num1: '',
+      num2: '',
+      num3: '',
+      num4: '',
+      num5: '',
+    });
+    setNationality('');
+    setEmployee(intialState);
+  };
+
   return (
     <div>
-      {/* <div>{JSON.stringify(employee)}</div>
-      {window.location.pathname.split('/')[2]} */}
       <form
         className="form-employee"
         onChange={() => {
-          if (
-            employee.firstname &&
-            employee.lastname &&
-            employee.birthday &&
-            nationality &&
-            phone &&
-            employee.expectedsalary
-          ) {
-            document.querySelector('.error-msg').classList.remove('error');
-          }
+          validateForm();
         }}
       >
         <div className="row-name">
@@ -67,10 +164,7 @@ export default function () {
             <select
               value={employee.title}
               onChange={(e) => {
-                setEmployee({
-                  ...employee,
-                  title: e.target.value,
-                });
+                onTitleChange(e.target.value);
               }}
             >
               <option value="Mr" defaultValue>
@@ -88,11 +182,7 @@ export default function () {
               type="text"
               value={employee.firstname}
               onChange={(e) => {
-                document.querySelector('.firstname').classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  firstname: e.target.value,
-                });
+                onFirstnameChange(e.target.value);
               }}
             />
           </div>
@@ -105,11 +195,7 @@ export default function () {
               type="text"
               value={employee.lastname}
               onChange={(e) => {
-                document.querySelector('.lastname').classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  lastname: e.target.value,
-                });
+                onLastnameChange(e.target.value);
               }}
             />
           </div>
@@ -124,21 +210,7 @@ export default function () {
               type="date"
               value={employee.birthday}
               onChange={(e) => {
-                document.querySelector('.birthday').classList.remove('error');
-                setEmployee({ ...employee, birthday: e.target.value });
-
-                if (
-                  employee.firstname &&
-                  employee.lastname &&
-                  employee.birthday &&
-                  nationality &&
-                  phone &&
-                  employee.expectedsalary
-                ) {
-                  document
-                    .querySelector('.error-msg')
-                    .classList.remove('error');
-                }
+                onBirthdayChange(e.target.value);
               }}
             />
           </div>
@@ -153,12 +225,7 @@ export default function () {
               defaultOptionLabel={'-- Please Select --'}
               value={nationality}
               onChange={(nationality) => {
-                document
-                  .querySelector('.nationality')
-                  .classList.remove('error');
-                console.log(nationality);
-                setNationality(nationality);
-                setEmployee({ ...employee, nationality: nationality });
+                onNationalityChange(nationality);
               }}
             />
           </div>
@@ -304,12 +371,7 @@ export default function () {
               masks={{ th: '...-...-....' }}
               value={phone}
               onChange={(phone) => {
-                document
-                  .querySelector('.react-tel-input')
-                  .classList.remove('error');
-                setPhone(phone);
-                console.log(phone);
-                setEmployee({ ...employee, mobilephone: phone });
+                onPhoneChange(phone);
               }}
             />
           </div>
@@ -340,18 +402,7 @@ export default function () {
               className="expectedsalary"
               value={employee.expectedsalary}
               onChange={(e) => {
-                document
-                  .querySelector('.expectedsalary')
-                  .classList.remove('error');
-                setEmployee({
-                  ...employee,
-                  expectedsalary: e.target.value
-                    .replace(/[^0-9]+/g, '')
-                    .replace(/,/g, '')
-
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-                });
+                onSalaryChange(e.target.value);
               }}
             />
             <label style={{ marginLeft: '5px' }}>THB</label>
@@ -360,29 +411,7 @@ export default function () {
             <button
               type="button"
               onClick={async () => {
-                if (!employee.firstname) {
-                  document.querySelector('.firstname').classList.add('error');
-                }
-                if (!employee.lastname) {
-                  document.querySelector('.lastname').classList.add('error');
-                }
-                if (!employee.birthday) {
-                  document.querySelector('.birthday').classList.add('error');
-                }
-                if (!nationality) {
-                  document.querySelector('.nationality').classList.add('error');
-                }
-                if (phone.length < 10) {
-                  document
-                    .querySelector('.react-tel-input')
-                    .classList.add('error');
-                }
-                if (!employee.expectedsalary) {
-                  document
-                    .querySelector('.expectedsalary')
-                    .classList.add('error');
-                }
-                console.log(phone);
+                validateInput();
                 if (
                   !employee.firstname ||
                   !employee.lastname ||
@@ -395,29 +424,18 @@ export default function () {
                 } else {
                   employeeReducer.employeelist[id] = employee;
                   let newarr = employeeReducer.employeelist;
-                  // console.log(employeeReducer.employeelist[id] = employee)
-                  console.log(newarr);
+
                   dispatch(actions.onEditEmList(newarr));
-                  // dispatch(actions.onReset());
-                  setPhone('');
-                  setCitizenid({
-                    num1: '',
-                    num2: '',
-                    num3: '',
-                    num4: '',
-                    num5: '',
-                  });
-                  setNationality('');
-                  setEmployee(intialState);
+
+                  onResetForm();
                   await Swal.fire({
-                    position: 'top-end',
+                    position: 'center-center',
                     icon: 'success',
-                    title: 'Your work has been saved',
+                    title: 'แก้ไขข้อมูลสำเร็จ !',
                     showConfirmButton: false,
                     timer: 1500,
                   });
                   history.push('/');
-                  console.log('Add Success');
                 }
               }}
             >
