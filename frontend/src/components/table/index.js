@@ -8,7 +8,7 @@ import { Route, NavLink, BrowserRouter } from 'react-router-dom';
 export default function () {
   const dispatch = useDispatch();
   const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
-
+  const Swal = require('sweetalert2');
   const deleteEmployee = (firstname) => {
     dispatch(
       actions.onDelete(
@@ -202,8 +202,15 @@ export default function () {
                     </NavLink>
                     /
                     <button
-                      onClick={() => {
-                        deleteEmployee(employee.firstname);
+                      onClick={async () => {
+                        await deleteEmployee(employee.firstname);
+                        await Swal.fire({
+                          position: 'center-center',
+                          icon: 'success',
+                          title: 'ลบข้อมูลสำเร็จ !',
+                          showConfirmButton: false,
+                          timer: 1500,
+                        });
                       }}
                     >
                       DELETE
