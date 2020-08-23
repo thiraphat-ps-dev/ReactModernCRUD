@@ -9,7 +9,83 @@ export default function () {
   const dispatch = useDispatch();
   const employeeReducer = useSelector(({ employeeReducer }) => employeeReducer);
 
-  console.log(employeeReducer.employeelist.sort());
+  const deleteEmployee = (firstname) => {
+    dispatch(
+      actions.onDelete(
+        employeeReducer.employeelist.findIndex(
+          (sum) => sum.firstname === firstname
+        )
+      )
+    );
+  };
+
+  const selectAll = () => {
+    const result = employeeReducer.employeelist.map(function (el) {
+      var o = Object.assign({}, el);
+      if (!employeeReducer.employeelist.some((em) => em.isCheck === false)) {
+        o.isCheck = false;
+      } else {
+        o.isCheck = true;
+      }
+
+      return o;
+    });
+    dispatch(actions.onCheckall(result));
+  };
+
+  const deleteSelected = () => {
+    dispatch(
+      actions.onEditEmList(
+        employeeReducer.employeelist.filter((em, index) => em.isCheck !== true)
+      )
+    );
+  };
+
+  const onPrev = () => {
+    if (employeeReducer.curentpage !== 1) {
+      dispatch(actions.onSetCurrentPage(employeeReducer.curentpage - 1));
+    }
+  };
+
+  const onPageChange = (page) => {
+    dispatch(actions.onSetCurrentPage(page));
+  };
+
+  const onNext = () => {
+    if (
+      employeeReducer.curentpage <
+      Math.ceil(employeeReducer.employeelist.length / 10)
+    ) {
+      dispatch(actions.onSetCurrentPage(employeeReducer.curentpage + 1));
+    }
+  };
+
+  const checkSelect = () => {
+    return !employeeReducer.employeelist.some((em) => em.isCheck === false);
+  };
+
+  const numPage = () => {
+    return Math.ceil(employeeReducer.employeelist.length / 10);
+  };
+  const start = () => {
+    return (employeeReducer.curentpage - 1) * 10;
+  };
+  const end = () => {
+    return employeeReducer.curentpage * 10;
+  };
+  const checkRow = (firstname) => {
+    employeeReducer.employeelist[
+      employeeReducer.employeelist.findIndex(
+        (sum) => sum.firstname === firstname
+      )
+    ].isCheck = !employeeReducer.employeelist[
+      employeeReducer.employeelist.findIndex(
+        (sum) => sum.firstname === firstname
+      )
+    ].isCheck;
+    dispatch(actions.onCheck(employeeReducer.employeelist));
+  };
+
   return (
     <div>
       <div className="table-container">
@@ -18,42 +94,16 @@ export default function () {
             <div className="select-all">
               <input
                 type="checkbox"
-                checked={
-                  !employeeReducer.employeelist.some(
-                    (em) => em.isCheck === false
-                  )
-                }
+                checked={checkSelect()}
                 onChange={() => {
-                  const result = employeeReducer.employeelist.map(function (
-                    el
-                  ) {
-                    var o = Object.assign({}, el);
-                    if (
-                      !employeeReducer.employeelist.some(
-                        (em) => em.isCheck === false
-                      )
-                    ) {
-                      o.isCheck = false;
-                    } else {
-                      o.isCheck = true;
-                    }
-
-                    return o;
-                  });
-                  dispatch(actions.onCheckall(result));
+                  selectAll();
                 }}
               />
               <span> Select All</span>
             </div>
             <button
               onClick={() => {
-                dispatch(
-                  actions.onEditEmList(
-                    employeeReducer.employeelist.filter(
-                      (em, index) => em.isCheck !== true
-                    )
-                  )
-                );
+                deleteSelected();
               }}
             >
               DELETE
@@ -63,17 +113,13 @@ export default function () {
             <div className="navigation-bar">
               <button
                 onClick={() => {
-                  if (employeeReducer.curentpage !== 1) {
-                    dispatch(
-                      actions.onSetCurrentPage(employeeReducer.curentpage - 1)
-                    );
-                  }
+                  onPrev();
                 }}
               >
                 PREV
               </button>
 
-              {Math.ceil(employeeReducer.employeelist.length / 10) === 0 ? (
+              {numPage() === 0 ? (
                 <button
                   onClick={() => {
                     dispatch(actions.onSetCurrentPage(1));
@@ -84,15 +130,12 @@ export default function () {
               ) : null}
 
               {_.map(
-                employeeReducer.employeelist.slice(
-                  0,
-                  Math.ceil(employeeReducer.employeelist.length / 10)
-                ),
+                employeeReducer.employeelist.slice(0, numPage()),
                 (employee, index) => (
                   <button
                     key={employee}
                     onClick={() => {
-                      dispatch(actions.onSetCurrentPage(index + 1));
+                      onPageChange(index + 1);
                     }}
                   >
                     {index + 1}
@@ -101,14 +144,7 @@ export default function () {
               )}
               <button
                 onClick={() => {
-                  if (
-                    employeeReducer.curentpage <
-                    Math.ceil(employeeReducer.employeelist.length / 10)
-                  ) {
-                    dispatch(
-                      actions.onSetCurrentPage(employeeReducer.curentpage + 1)
-                    );
-                  }
+                  onNext();
                 }}
               >
                 NEXT
@@ -119,21 +155,18 @@ export default function () {
         <table className="table-employee">
           <thead>
             <tr>
-              <th></th>
-              <th>NAME</th>
-              <th>GENDER</th>
-              <th>MOBILE PHONE</th>
-              <th>NATIONALITY</th>
-              <th>ACTION</th>
+              {_.map(
+                ['', 'NAME', 'GENDER', 'MOBILE PHONE', 'NATIONALITY', 'ACTION'],
+                (item, index) => (
+                  <th key={index}>{item}</th>
+                )
+              )}
             </tr>
           </thead>
-          {/* {JSON.stringify(employeeReducer.employeelist.reverse())} */}
+
           <tbody>
             {_.map(
-              employeeReducer.employeelist.slice(
-                (employeeReducer.curentpage - 1) * 10,
-                employeeReducer.curentpage * 10
-              ),
+              employeeReducer.employeelist.slice(start(), end()),
               (employee, index) => (
                 <tr
                   className={`${employee.isCheck ? 'active' : ''}`}
@@ -144,16 +177,7 @@ export default function () {
                       type="checkbox"
                       checked={employee.isCheck}
                       onChange={() => {
-                        employeeReducer.employeelist[
-                          employeeReducer.employeelist.findIndex(
-                            (sum) => sum.firstname === employee.firstname
-                          )
-                        ].isCheck = !employeeReducer.employeelist[
-                          employeeReducer.employeelist.findIndex(
-                            (sum) => sum.firstname === employee.firstname
-                          )
-                        ].isCheck;
-                        dispatch(actions.onCheck(employeeReducer.employeelist));
+                        checkRow(employee.firstname);
                       }}
                     />
                   </td>
@@ -179,9 +203,7 @@ export default function () {
                     /
                     <button
                       onClick={() => {
-                        dispatch(actions.onDelete(employeeReducer.employeelist.findIndex(
-                          (sum) => sum.firstname === employee.firstname
-                        )));
+                        deleteEmployee(employee.firstname);
                       }}
                     >
                       DELETE
